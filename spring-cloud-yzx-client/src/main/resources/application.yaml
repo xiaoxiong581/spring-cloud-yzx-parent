@@ -1,9 +1,9 @@
 spring:
   application:
-    name: spring-cloud-yzx-server
+    name: spring-cloud-yzx-client
 server:
-  port: 5100
-  context-path: /server
+  port: 5200
+  context-path: /client
 eureka:
   client:
     serviceUrl:
