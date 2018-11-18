@@ -23,13 +23,13 @@ public class HealthCheckImpl
             value = "2000")})
     @RequestMapping("/healthcheck")
     @ResponseBody
-    public String healthCheck(@RequestParam(value = "param", required = false) String param) throws InterruptedException
+    public String healthCheck(@RequestParam(value = "param", required = false) String param)
     {
         return healthCheckService.healthCheck(param);
     }
 
-    public String healthCheckCallback(String param)
+    private String healthCheckCallback(String param)
     {
-        return "healthCheck interface is run error, please notice administrator";
+        return String.format("healthCheck interface is run error, param: [%s], please notice administrator", param);
     }
 }
