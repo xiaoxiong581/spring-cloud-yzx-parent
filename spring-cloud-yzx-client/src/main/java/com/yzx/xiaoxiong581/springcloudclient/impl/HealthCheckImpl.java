@@ -1,5 +1,7 @@
 package com.yzx.xiaoxiong581.springcloudclient.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.yzx.xiaoxiong581.springcloudclient.third.server.HealthCheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +19,17 @@ public class HealthCheckImpl
     @Autowired
     public HealthCheckService healthCheckService;
 
+    @HystrixCommand(fallbackMethod = "healthCheckCallback", commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
+            value = "2000")})
     @RequestMapping("/healthcheck")
     @ResponseBody
-    public String healthCheck(@RequestParam(value = "param", required = false) String param)
+    public String healthCheck(@RequestParam(value = "param", required = false) String param) throws InterruptedException
     {
         return healthCheckService.healthCheck(param);
+    }
+
+    public String healthCheckCallback(String param)
+    {
+        return "healthCheck interface is run error, please notice administrator";
     }
 }
